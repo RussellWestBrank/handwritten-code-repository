@@ -1,11 +1,25 @@
-function throttle(fn, delay) {
-    let timerId = null
-    return function(){
-        if(timerId){
-            clearTimeout(timerId)
-        }
-        timerId = setTimeout(() => {
-            fn.apply(this,arguments) 
-        },[delay])
+function throttle(fn, wait) {
+  let timer = null;
+  function throttled(...arguments) {
+    if (!timer) {
+      timer = setTimeout(() => {
+        fn.apply(this, args);
+        timer = null;
+      }, wait);
     }
+  }
+
+  throttled.cancel = function () {
+    clearTimeout(timer);
+    timer = null;
+  }
+
+  throttled.flush = function () {
+    if (timer) {
+      fn.apply(this, args);
+      timer = null;
+    }
+  }
+
+  return throttled;
 }
