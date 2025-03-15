@@ -49,7 +49,7 @@ function debounce(fn, option) {
     function debounced (...arguments) {
         const time = Date.now()
 
-        const remainingTime = maxWait ? Math.min(maxWait- (time - lastCallTime)) : wait
+        const remainingTime = maxWait ? Math.min(maxWait- (time - lastCallTime), wait) : wait
 
         if(leading && !timer) {
             fn.apply(this, arguments)
